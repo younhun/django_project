@@ -1,7 +1,11 @@
 {% if question_list %}
     <ul>
     {% for question in question_list %}
-        <li><a href = '/pybo/{{question.id}}/'>{{question.subject}}</a></li>
+        <!--url 별칭 사용 전, 후-->
+        <!-- <li><a href = '/pybo/{{question.id}}/'>{{question.subject}}</a></li> -->
+        
+        <!--detail 앞에 app_name을 붙여서 작성한다.-->
+        <li><a href = '{% url 'pybo:detail' question.id %}'>{{question.subject}}</a></li>
     {% endfor %}
     </ul>
 {% else %}

@@ -1,5 +1,8 @@
-from django.shortcuts import render
-from .models import Question
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+from .models import Question, Answer
+
+
 # Create your views here.
 def index(request): 
     # 질문 목록 데이터 얻기
@@ -12,7 +15,21 @@ def index(request):
     # config/settings.py 파일의 TEMPLATES 항목에 설정
     return render(request,'pybo/question_list.html',context)
 
-def detatil(request, question_id):
-    question = Question.objects.get(id=question_id)
+def detail(request, question_id):
+    # 없는 id를 찾으면 500에러 발생
+    # 500(서버)에러 대신 404에러 발생하게끔 예외처리
+    #question = Question.objects.get(id=question_id)
+    question = get_object_or_404(Question, pk=question_id)
     context = {'question':question}
     return render(request,'pybo/question_detail.html',context)
+
+def answer_create(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    # request로 읽을 수 있다.
+    # POST로 전송된 폼 데이터 항목 중 content 값을 가져온다.
+    answer = Answer(question=question, content=request.POST.get('content'),
+                    create_date = timezone.now())
+    answer.save()
+    # 답변을 생성 후, 질문 상세 화면을 다시 보여주기 위해 redirect 사용
+    return redirect('pybo:detail', question_id=question.id)
+    
