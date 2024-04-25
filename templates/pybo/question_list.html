@@ -1,13 +1,35 @@
-{% if question_list %}
-    <ul>
-    {% for question in question_list %}
-        <!--url 별칭 사용 전, 후-->
-        <!-- <li><a href = '/pybo/{{question.id}}/'>{{question.subject}}</a></li> -->
-        
-        <!--detail 앞에 app_name을 붙여서 작성한다.-->
-        <li><a href = '{% url 'pybo:detail' question.id %}'>{{question.subject}}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p> 질문이 없습니다. </p>
-{% endif %}
+{%extends 'base.html'%}
+{%block content%}
+<div class='container my-3'>
+    <table class='table'>
+        <thead>
+            <tr class='table-dark'>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성일시</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if question_list %}
+            {% for question in question_list %}
+            <tr>
+                <!--인덱스 1부터 시작 0부터 시작하려면 forloop.counter0-->
+                <td>{{forloop.counter}}</td>
+                <td>
+                    <!--url 별칭 사용 전, 후-->
+                    <!-- <a href = '/pybo/{{question.id}}/'>{{question.subject}}</a> -->
+                    <!--detail 앞에 app_name을 붙여서 작성한다.-->
+                    <a href = '{% url 'pybo:detail' question.id %}'>{{question.subject}}</a>
+                </td>
+                <td>{{question.create_date}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan='3'>질문이 없습니다.</td>
+            </tr>
+            {%endif%}
+        </tbody>
+    </table>
+</div>
+{%endblock%}

@@ -30,6 +30,6 @@ def answer_create(request, question_id):
     answer = Answer(question=question, content=request.POST.get('content'),
                     create_date = timezone.now())
     answer.save()
-    # 답변을 생성 후, 질문 상세 화면을 다시 보여주기 위해 redirect 사용
+    # 답변을 생성 후, 질문 상세 화면을 '다시' 보여주기 위해 redirect 사용
     return redirect('pybo:detail', question_id=question.id)
     
