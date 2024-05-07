@@ -1,0 +1,14 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class='container'>
+    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+    <!--action을 지정하지 않았다. 지정하지 않으면 현재 페이지의 URL이 기본으로 설정-->
+    <!--왜냐하면 질문수정에서도 이 템플릿을 이용할 것이기 때문에-->
+    <form method='POST'>
+        {%csrf_token%}
+        <!--질문 폼에서 정의한 subject, content 속성에 해당하는 HTML코드를 자동으로 생성-->
+        {{form.as_p}}
+        <button type='submit' class='btn btn-primary'>저장하기</button>
+    </form>
+</div>
+{%endblock%}
